@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "ui"
+version = "0.1.0"
+description = ""
+authors = ["romaintailhurat <romain.tailhurat@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+reflex = "^0.2.2"
+pogzops = {path = "../../pogzops", develop = true}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
