@@ -13,6 +13,7 @@ with files("secrets").joinpath("secrets.json").open('r', encoding="UTF-8") as sf
 	secrets = load(sf)
 
 # Useful envs
+# TODO conf package and file to hold those informations
 
 beta = "beta"
 prod = "prod-interne"
