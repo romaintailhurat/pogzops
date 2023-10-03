@@ -5,7 +5,7 @@ from pathlib import Path
 class PoguesEnv:
     name: str
     url: str
-    token: str = None
+    token: str | None = None
     cert_path: bool = False
 
     def __str__(self) -> str:

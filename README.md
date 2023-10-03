@@ -27,7 +27,7 @@ Then, the easiest way to run a program will be to launch the `run.py` file with 
 
 `$> poetry run python pogzops/run.py`
 
-# TODO
+## TODO
 
 - [ ] build a proper lib :v:
 - [ ] `cert_path` → boolean or Path ?
