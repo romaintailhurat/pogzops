@@ -3,7 +3,7 @@ from dataclasses import dataclass
 @dataclass
 class Status:
     status_code: int
-    payload: dict = None # most of the time a JSON questionnaire
+    payload: dict | None = None # most of the time a JSON questionnaire
 
 @dataclass
 class Success(Status):
