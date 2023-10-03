@@ -1,19 +1,24 @@
-from models.envs import PoguesEnv, envs
+from models.envs import PoguesEnv
 from models.status import Success
 from remote.opz import check_duplicates_from_api
 from remote.get import get_questionnaire
 from output.reporting import generate_duplicate_report, save_report
+from conf.conf import load_secrets, load_conf
 
 from json import load
 from importlib.resources import files
 from pathlib import Path
 
 
-with files("secrets").joinpath("secrets.json").open('r', encoding="UTF-8") as sf:
-	secrets = load(sf)
+#with files("conf").joinpath("secrets.json").open('r', encoding="UTF-8") as sf:
+#	secrets = load(sf)
 
 # Useful envs
 # TODO conf package and file to hold those informations
+
+secrets = load_secrets()
+conf = load_conf()
+envs = conf["envs"]
 
 beta = "beta"
 prod = "prod-interne"
