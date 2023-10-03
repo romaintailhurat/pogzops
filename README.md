@@ -1,12 +1,15 @@
 # 🛴 pogzops 🛴
 
-__pogzops__ is a set of Python programs that helps a Pogues power user with several taks.
+__pogzops__ is a set of Python programs that helps a Pogues power user with several tasks.
 
 ## Use cases
 
 For example, a power user might like to copy several questionnaires from one environment to another:
 
 ```python
+from remote.opz import copy
+from models.envs import PoguesEnv
+
 first_env = PoguesEnv("first", envs["first"])
 second_env = PoguesEnv("second", envs["second"])
 
@@ -26,6 +29,7 @@ Then, the easiest way to run a program will be to launch the `run.py` file with 
 
 # TODO
 
+- [ ] build a proper lib :v:
 - [ ] `cert_path` → boolean or Path ?
 - [ ] `no_proxy` (currently handled in terminal by `set no_proxy=<domain.com>`
 - [ ] handle time out exceptions (or other type of exception resulting from a non terminating HTTP exchange)
