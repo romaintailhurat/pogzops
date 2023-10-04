@@ -5,16 +5,7 @@ from remote.get import get_questionnaire
 from output.reporting import generate_duplicate_report, save_report
 from conf.conf import load_secrets, load_conf
 
-from json import load
-from importlib.resources import files
 from pathlib import Path
-
-
-#with files("conf").joinpath("secrets.json").open('r', encoding="UTF-8") as sf:
-#	secrets = load(sf)
-
-# Useful envs
-# TODO conf package and file to hold those informations
 
 secrets = load_secrets()
 conf = load_conf()
