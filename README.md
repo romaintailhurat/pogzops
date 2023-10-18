@@ -27,6 +27,12 @@ Then, the easiest way to run a program will be to launch the `run.py` file with 
 
 `$> poetry run python pogzops/run.py`
 
+## Lint
+
+`$> poetry run ruff check .`
+
+See [ruff](https://github.com/astral-sh/ruff).
+
 ## TODO
 
 - [ ] build a proper lib :v:
