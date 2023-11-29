@@ -1,0 +1,14 @@
+ops:
+  - name: "get_questionnaire"
+    type: "single"
+    id: "abcdef12"
+    env: "demo"
+  - name: "delete_questionnaire"
+    type: "single"
+    id: "abcdef12"
+    env: "demo"
+envs:
+  - env: "demo"
+    url: "http://www.example.com"
+    name: "demo"
+    token: ""
