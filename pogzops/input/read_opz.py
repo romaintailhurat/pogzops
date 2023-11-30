@@ -14,6 +14,16 @@ def read_opz_file(path_to_yaml: Path) -> list[Operation]:
             env["name"]: PoguesEnv(env["name"], env["url"]) for env in raw_yaml["envs"]
         }
         ops = []
+        stamp = None
+        # TODO spaghetti code :(
         for op in raw_yaml["ops"]:
-            ops.append(Operation(op["name"], SingleQuestionnaireParams(op["id"])))
+            if "stamp" in op:
+                stamp = op["stamp"]
+            ops.append(
+                Operation(
+                    op["name"],
+                    envs[op["env"]],
+                    SingleQuestionnaireParams(op["id"], stamp),
+                )
+            )
         return ops

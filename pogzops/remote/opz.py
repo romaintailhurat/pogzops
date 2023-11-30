@@ -3,16 +3,17 @@ High-level operations on Pogues questionnaires.
 
 Combines low-level functions of the remote package.
 """
-from models.envs import PoguesEnv
-from remote.get import get_questionnaire
-from remote.update import update_questionnaire
-from remote.create import create_questionnaire
-from models.status import Status, Success, Failure
-from models.questionnaire import get_ids, get_names_and_labels, get_dups
+from pogzops.models.types import Stamp
+from pogzops.models.status import Status, Success, Failure
+from pogzops.models.envs import PoguesEnv
+from pogzops.models.questionnaire import get_ids, get_names_and_labels, get_dups
+from pogzops.remote.get import get_questionnaire
+from pogzops.remote.update import update_questionnaire
+from pogzops.remote.create import create_questionnaire
 
 
 # --- Updating questionnaires
-def change_stamp(id: str, stamp: str, env: PoguesEnv) -> Status:
+def change_stamp(id: str, stamp: Stamp, env: PoguesEnv) -> Status:
     """
     Update the stamp for a given questionnaire id in the same environment.
     """

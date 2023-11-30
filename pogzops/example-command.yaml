@@ -1,14 +1,11 @@
 ops:
-  - name: "get_questionnaire"
+  - name: "change_stamp"
     type: "single"
-    id: "abcdef12"
-    env: "demo"
-  - name: "delete_questionnaire"
-    type: "single"
-    id: "abcdef12"
+    id: "lpjqty81"
+    stamp: "TEST"
     env: "demo"
 envs:
   - env: "demo"
-    url: "http://www.example.com"
+    url: "https://pogues-back-office.demo.insee.io"
     name: "demo"
     token: ""

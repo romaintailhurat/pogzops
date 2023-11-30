@@ -1,6 +1,6 @@
 import httpx
-from models.envs import PoguesEnv
-from models.status import Success, Failure, Status
+from pogzops.models.envs import PoguesEnv
+from pogzops.models.status import Success, Failure, Status
 from importlib.resources import files
 
 

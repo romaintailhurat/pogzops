@@ -8,6 +8,7 @@ from pogzops.input.read_opz import read_opz_file
 def main(filepath):
     ops = read_opz_file(filepath)
     for op in ops:
+        print(op)
         op.execute()
 
 
