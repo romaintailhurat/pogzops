@@ -5,6 +5,10 @@ description = "Toolbelt for Pogues"
 authors = ["romaintailhurat <romain.tailhurat@gmail.com>"]
 readme = "README.md"
 
+[project.urls]
+Homepage = "https://github.com/romaintailhurat/pogzops/"
+Issues = "https://github.com/romaintailhurat/pogzops/issues"
+
 [tool.poetry.dependencies]
 python = "^3.11"
 httpx = "^0.24.1"

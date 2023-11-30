@@ -1,10 +1,11 @@
 from dataclasses import dataclass
+from pogzops.models.types import Payload
 
 
 @dataclass
 class Status:
     status_code: int
-    payload: dict | None = None  # most of the time a JSON questionnaire
+    payload: Payload = None  # most of the time a JSON questionnaire
 
     def is_success(self):
         return type(self) is Success

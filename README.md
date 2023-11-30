@@ -37,6 +37,7 @@ See [ruff](https://github.com/astral-sh/ruff).
 
 - [ ] build a proper lib :v:
 - [ ] `cert_path` → boolean or Path ?
+  - [ ] handle path to certificate from the yaml file
 - [ ] `no_proxy` (currently handled in terminal by `set no_proxy=<domain.com>`
 - [ ] handle time out exceptions (or other type of exception resulting from a non terminating HTTP exchange)
 - [ ] proper cli build, see [this](https://dev.to/bowmanjd/build-command-line-tools-with-python-poetry-4mnc)
