@@ -1,5 +1,5 @@
 ops:
-  - name: "change_stamp"
+  - name: "check_existence"
     type: "single"
     id: "lpjqty81"
     stamp: "TEST"
