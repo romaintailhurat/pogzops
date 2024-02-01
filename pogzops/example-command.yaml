@@ -6,6 +6,6 @@ ops:
     env: "demo"
 envs:
   - env: "demo"
-    url: "https://pogues-back-office.demo.insee.io"
+    url: "https://api-conception-questionnaires.demo.insee.io"
     name: "demo"
     token: ""

@@ -6,3 +6,6 @@ Stamp = str | None
 
 # A Status has a Payload that could be None
 Payload = dict | None
+
+# TODO use this ID
+ID = str | None

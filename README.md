@@ -2,7 +2,39 @@
 
 __pogzops__ is a set of Python programs that helps a Pogues power user with several tasks.
 
+> WIP use as a cli and as a set of programs
+
 ## Use cases
+
+### Using the CLI
+
+Currently:
+
+`$> poetry run python pogzops\cli.py pogzops\example-command.yaml`
+
+We're targeting to use `pogzops` as a Python cli:
+
+`$> pogzops my-operations.yaml`
+
+The YAML file as this structure:
+
+```yaml
+ops:
+  - name: "change_stamp"
+    type: "single"
+    id: "lpjqty81"
+    stamp: "TEST"
+    env: "demo"
+envs:
+  - env: "demo"
+    url: "https://api-conception-questionnaires.demo.insee.io"
+    name: "demo"
+    token: ""
+```
+
+ops contains a list of operations, envs is a list of Pogues envs (the API).
+
+### Using the lib
 
 For example, a power user might like to copy several questionnaires from one environment to another:
 
