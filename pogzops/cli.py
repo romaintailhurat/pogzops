@@ -1,6 +1,7 @@
 import click
 
 from pogzops.input.read_opz import read_opz_file
+from pogzops.models.operations import implemented_operations
 
 
 @click.command
@@ -17,7 +18,9 @@ def exe(filepath):
 @click.command
 def ls():
     """List the available commands."""
-    print("Available operations: check_existence, change_stamp")
+    click.echo("Available operations are:")
+    for op_name, op_info in implemented_operations.items():
+        click.echo(f"{op_name}: {op_info}")
 
 
 @click.group()

@@ -6,6 +6,11 @@ from pogzops.remote.opz import change_stamp
 from pogzops.remote.get import get_questionnaire
 import abc
 
+implemented_operations = {
+    "change_stamp": "Set a new value for the target questionnaire stamp.",
+    "check_existence": "Check if a questionnaire exists in a target environment.",
+}
+
 
 @dataclass
 class OperationParams:

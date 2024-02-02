@@ -14,6 +14,7 @@ from pogzops.models.operations import (
 
 
 def generate_operations_from_yaml(raw_yaml) -> list[Operation]:
+    """Generate the list of `Operation` from the source input."""
     envs = {env["name"]: PoguesEnv(env["name"], env["url"]) for env in raw_yaml["envs"]}
     ops = []
     stamp = None
