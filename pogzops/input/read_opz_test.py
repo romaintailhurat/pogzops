@@ -1,5 +1,6 @@
 from pogzops.input.read_opz import generate_operations_from_yaml
 from pogzops.models.operations import OperationNotImplemented
+import pytest
 
 
 def test_bad_yaml():
@@ -13,3 +14,18 @@ def test_not_implemented_operation():
     }
     operations = generate_operations_from_yaml(input_with_not_implemented_operation)
     assert type(operations[0]) is OperationNotImplemented
+
+
+def test_badly_formated_env():
+    input_env_with_missing_name = {
+        "envs": [{"env": "", "url": "", "token": ""}],
+        "ops": [{"name": "fake_operation_name", "env": ""}],
+    }
+    input_env_with_missing_url = {
+        "envs": [{"env": "", "name": "", "token": ""}],
+        "ops": [{"name": "fake_operation_name", "env": ""}],
+    }
+    with pytest.raises(RuntimeError):
+        generate_operations_from_yaml(input_env_with_missing_name)
+    with pytest.raises(RuntimeError):
+        generate_operations_from_yaml(input_env_with_missing_url)

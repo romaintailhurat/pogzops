@@ -20,7 +20,7 @@ def ls():
     """List the available commands."""
     click.echo("Available operations are:")
     for op_name, op_info in implemented_operations.items():
-        click.echo(f"{op_name}: {op_info}")
+        click.echo(f"- {op_name}: {op_info}")
 
 
 @click.group()
