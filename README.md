@@ -10,7 +10,7 @@ __pogzops__ is a set of Python programs that helps a Pogues power user with seve
 
 Currently:
 
-`$> poetry run python pogzops\cli.py exe pogzops\example-command.yaml`
+`$> poetry run pgz exe pogzops\example-command.yaml`
 
 We're targeting to use `pogzops` as a Python cli:
 
@@ -34,7 +34,7 @@ envs:
 
 ops contains a list of operations, envs is a list of Pogues envs (the API).
 
-You can use `$> poetry run python pogzops\cli.py ls` to get the list of available operations.
+You can use `$> poetry run pgz ls` to get the list of available operations.
 
 ### Using the lib
 

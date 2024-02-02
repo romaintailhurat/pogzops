@@ -6,6 +6,7 @@ from pogzops.input.read_opz import read_opz_file
 @click.command
 @click.argument("filepath", type=click.Path(exists=True))
 def exe(filepath):
+    """Execute the operations listed in the target YAML file."""
     ops = read_opz_file(filepath)
     for op in ops:
         print(op)
@@ -15,7 +16,8 @@ def exe(filepath):
 
 @click.command
 def ls():
-    print("Available commands: check_existence, change_stamp")
+    """List the available commands."""
+    print("Available operations: check_existence, change_stamp")
 
 
 @click.group()
