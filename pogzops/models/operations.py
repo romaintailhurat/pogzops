@@ -39,6 +39,9 @@ class Operation(abc.ABC):
 class ChangeStamp(Operation):
     params: SingleQuestionnaireParams
 
+    def __str__(self) -> str:
+        return f"Changing stamp of questionnnaire {self.params.id} to {self.params.stamp} on env {self.env.name}"
+
     def execute(self) -> Status:
         return change_stamp(self.params.id, self.params.stamp, self.env)
 
