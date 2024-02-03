@@ -30,7 +30,6 @@ def generate_operations_from_yaml(raw_yaml) -> list[Operation]:
         envs[env["name"]] = PoguesEnv(env["name"], env["url"])
 
     ops = []
-    stamp = None
     for op in raw_yaml["ops"]:
         match op["name"]:
             case "change_stamp":
@@ -46,7 +45,7 @@ def generate_operations_from_yaml(raw_yaml) -> list[Operation]:
                     CheckExistence(
                         op["name"],
                         envs[op["env"]],
-                        SingleQuestionnaireParams(op["id"], stamp),
+                        SingleQuestionnaireParams(op["id"]),
                     )
                 )
             case _:

@@ -20,7 +20,7 @@ class OperationParams:
 @dataclass
 class SingleQuestionnaireParams(OperationParams):
     id: str
-    stamp: Stamp
+    stamp: Stamp = None
 
 
 @dataclass
