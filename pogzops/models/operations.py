@@ -1,4 +1,7 @@
 from dataclasses import dataclass
+from typing import List
+
+from pydantic import BaseModel
 from pogzops.models.envs import PoguesEnv
 from pogzops.models.types import Stamp
 from pogzops.models.status import Status
@@ -76,24 +79,14 @@ class CheckExistence(Operation):
         return get_questionnaire(self.params.id, self.env)
 
 
-@dataclass
-class Copy(Operation):
-    params: SingleQuestionnaireParams
-
-    @classmethod
-    def check_operation_params(cls, operation_params):
-        """`operation_params` is what is coming from the YAML source file."""
-        ok_source_env = "source_env" in operation_params.keys()
-        ok_target_env = "target_env" in operation_params.keys()
-        ok_id = "id" in operation_params.keys()
-        if ok_id:
-            no_empty_ids = all([id != "" for id in operation_params["id"]])
-        else:
-            no_empty_ids = False
-        return ok_source_env & ok_target_env & ok_id & no_empty_ids
+class Copy(BaseModel):
+    name: str
+    id: List[str]
+    source_env: PoguesEnv
+    target_env: PoguesEnv
 
     def execute(self) -> Status:
-        return super().execute()
+        raise NotImplementedError("WIP")
 
 
 @dataclass

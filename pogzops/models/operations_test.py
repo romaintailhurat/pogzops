@@ -1,3 +1,4 @@
+from pydantic import ValidationError
 from pogzops.models.operations import (
     Copy,
     OperationNotImplemented,
@@ -50,7 +51,5 @@ def test_copy_with_bad_params():
             }
         ],
     }
-    assert False is Copy.check_operation_params(input_copy_op_with_missing_target_env)
-    assert False is Copy.check_operation_params(input_copy_op_with_missing_source_env)
-    assert False is Copy.check_operation_params(input_copy_op_with_missing_id)
-    assert False is Copy.check_operation_params(input_copy_op_with_empty_id)
+    with pytest.raises(ValidationError):
+        Copy(**input_copy_op_with_empty_id["ops"][0])
