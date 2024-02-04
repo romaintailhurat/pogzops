@@ -74,26 +74,8 @@ with open("pogzops/example-command.yaml") as source:
 
 # TCM
 
-tcm_modules_id = [
-    "lgf69bqb",
-    "lj89z7sn",
-    "lgdzfhfx",
-    "lgdy0lat",
-    "lge02hwz",
-    "lgdzlf3o",
-    "lge03sax",
-    "likdd05z",
-    "lge05we2",
-    "lgdy5off",
-    "lge01yp0",
-    "lge01nf6",
-    "lgdygcql",
-    "lge09s4g",
-    "lge0pirs",
-    "lgdz4zf6",
-    "lgdywxid",
-]
+ctrps_modules_id = ["lruq3m17", "lrt1z6b8"]
 
-for module_id in tcm_modules_id:
+for module_id in ctrps_modules_id:
     result = copy(module_id, prod_env, demo_env)
     print(result)

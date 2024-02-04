@@ -5,6 +5,7 @@ from pathlib import Path
 from yaml import safe_load
 from pogzops.models.envs import PoguesEnv
 from pogzops.models.operations import (
+    Copy,
     Operation,
     SingleQuestionnaireParams,
     ChangeStamp,
@@ -13,11 +14,16 @@ from pogzops.models.operations import (
 )
 
 
-def check_input_env(input_env: dict):
+def check_input_env(input_env: dict) -> bool:
     """Check if the env definition in the input YAML file is ok, as in the shape of the YAML object is good."""
     ok_name = "name" in input_env.keys()
     ok_url = "url" in input_env.keys()
     return ok_name & ok_url
+
+
+def check_input_op(input_op: dict) -> bool:
+    ok_source_env = "source_env" in input_op.keys()
+    return ok_source_env
 
 
 def generate_operations_from_yaml(raw_yaml) -> list[Operation]:
@@ -31,12 +37,14 @@ def generate_operations_from_yaml(raw_yaml) -> list[Operation]:
 
     ops = []
     for op in raw_yaml["ops"]:
+        if check_input_op(op) is False:
+            raise RuntimeError("bad op format")
         match op["name"]:
             case "change_stamp":
                 ops.append(
                     ChangeStamp(
                         op["name"],
-                        envs[op["env"]],
+                        envs[op["source_env"]],
                         SingleQuestionnaireParams(op["id"], op["stamp"]),
                     )
                 )
@@ -44,12 +52,20 @@ def generate_operations_from_yaml(raw_yaml) -> list[Operation]:
                 ops.append(
                     CheckExistence(
                         op["name"],
-                        envs[op["env"]],
+                        envs[op["source_env"]],
+                        SingleQuestionnaireParams(op["id"]),
+                    )
+                )
+            case "copy":
+                ops.append(
+                    Copy(
+                        op["name"],
+                        envs[op["source_env"]],
                         SingleQuestionnaireParams(op["id"]),
                     )
                 )
             case _:
-                ops.append(OperationNotImplemented(op["name"], envs[op["env"]]))
+                ops.append(OperationNotImplemented(op["name"], envs[op["source_env"]]))
     return ops
 
 

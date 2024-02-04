@@ -3,7 +3,7 @@ ops:
     type: "single"
     id: "ls5pz4zlXXX"
     stamp: "TEST"
-    env: "demo"
+    source_env: "demo"
 envs:
   - env: "demo"
     url: "https://api-conception-questionnaires.demo.insee.io"
