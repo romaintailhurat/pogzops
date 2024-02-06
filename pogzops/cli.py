@@ -2,7 +2,11 @@ import click
 
 from pogzops.input.read_opz import read_opz_file
 from pogzops.models.operations import implemented_operations
-from pogzops.models.status import Success
+from pogzops.models.status import (
+    OperationFailure,
+    OperationPartial,
+    OperationSuccess,
+)
 
 
 @click.command
@@ -12,10 +16,16 @@ def exe(filepath):
     ops = read_opz_file(filepath)
     for op in ops:
         status = op.execute()
-        if type(status) is Success:
-            click.echo(status)
-        else:
-            click.echo(click.style(f"Error with operation {op.name}", bg="red"))
+
+        match status:
+            case OperationSuccess():
+                click.echo(click.style("Operation successful", bg="green"))
+            case OperationPartial():
+                click.echo(click.style("Operation partially successful", bg="yellow"))
+            case OperationFailure():
+                click.echo(click.style("Error with operation", bg="red"))
+            case _:
+                click.echo("duh?")
 
 
 @click.command

@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 
-@dataclass
-class PoguesEnv:
+from pydantic import BaseModel
+
+
+class PoguesEnv(BaseModel):
     name: str
     url: str
     token: str | None = None

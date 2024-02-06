@@ -57,24 +57,10 @@ if qs_status.is_success():
                 status = delete_questionnaire(del_url, demo_env)
 """
 
-"""
-from enum import StrEnum
-
-Operations = StrEnum("Operations", ["get_questionnaire", "delete_questionnaire"])
-
-Operations(
-    "get_questionnaire"
-)  # to check the operation is valid ; alternatives : https://stackoverflow.com/questions/63335753/how-to-check-if-string-exists-in-enum-of-strings
-
-with open("pogzops/example-command.yaml") as source:
-    obj = safe_load(source)
-    for ops in obj["ops"]:
-        print(ops["type"])
-"""
 
 # TCM
 
-ctrps_modules_id = ["lruq3m17", "lrt1z6b8"]
+ctrps_modules_id = ["ljx26aw3", "ljsc4ej1"]
 
 for module_id in ctrps_modules_id:
     result = copy(module_id, prod_env, demo_env)

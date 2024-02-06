@@ -6,6 +6,7 @@ from yaml import safe_load
 from pogzops.models.envs import PoguesEnv
 from pogzops.models.operations import (
     Copy,
+    NewOperation,
     Operation,
     SingleQuestionnaireParams,
     ChangeStamp,
@@ -26,50 +27,38 @@ def check_input_op(input_op: dict) -> bool:
     return ok_source_env
 
 
-def generate_operations_from_yaml(raw_yaml) -> list[Operation]:
+def generate_operations_from_yaml(raw_yaml) -> list[NewOperation]:
     """Generate the list of `Operation` from the source input."""
     envs = {}
 
+    """ 
     for env in raw_yaml["envs"]:
         if check_input_env(env) is False:
             raise RuntimeError("bad env format")
-        envs[env["name"]] = PoguesEnv(env["name"], env["url"])
+        envs[env["name"]] = PoguesEnv(env["name"], env["url"]) 
+    """
 
     ops = []
     for op in raw_yaml["ops"]:
         if check_input_op(op) is False:
             raise RuntimeError("bad op format")
         match op["name"]:
-            case "change_stamp":
-                ops.append(
-                    ChangeStamp(
-                        op["name"],
-                        envs[op["source_env"]],
-                        SingleQuestionnaireParams(op["id"], op["stamp"]),
-                    )
-                )
             case "check_existence":
                 ops.append(
-                    CheckExistence(
-                        op["name"],
-                        envs[op["source_env"]],
-                        SingleQuestionnaireParams(op["id"]),
-                    )
+                    CheckExistence(**op),
                 )
+
             case "copy":
                 ops.append(
-                    Copy(
-                        op["name"],
-                        envs[op["source_env"]],
-                        SingleQuestionnaireParams(op["id"]),
-                    )
+                    Copy(**op),
                 )
+
             case _:
                 ops.append(OperationNotImplemented(op["name"], envs[op["source_env"]]))
     return ops
 
 
-def read_opz_file(path_to_yaml: Path) -> list[Operation]:
+def read_opz_file(path_to_yaml: Path) -> list[NewOperation]:
     """Instanciate environments (`envs`) and operations (`ops`) from a yaml source file."""
     with open(path_to_yaml) as opz_yaml:
         raw_yaml = safe_load(opz_yaml)

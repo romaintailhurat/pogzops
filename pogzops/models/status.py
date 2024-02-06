@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List
 from pogzops.models.types import Payload
 
 
@@ -18,4 +19,24 @@ class Success(Status):
 
 @dataclass
 class Failure(Status):
+    pass
+
+
+@dataclass
+class OperationStatus:
+    source_statuses: List[Status] | None
+
+
+@dataclass
+class OperationSuccess(OperationStatus):
+    pass
+
+
+@dataclass
+class OperationPartial(OperationStatus):
+    pass
+
+
+@dataclass
+class OperationFailure(OperationStatus):
     pass
