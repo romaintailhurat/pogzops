@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import json
 import stat
 from typing import List
 
@@ -113,6 +114,24 @@ class Copy(BaseModel):
 
     def execute(self) -> Status:
         raise NotImplementedError("WIP")
+
+
+class Download(BaseModel):
+    """Download questionnaires"""
+
+    name: str
+    ids: List[str]
+    source_env: PoguesEnv
+    zip: bool  # TODO
+
+    def execute(self) -> OperationStatus:
+        statuses = []
+        for id in self.ids:
+            status = get_questionnaire(id, self.source_env)
+            statuses.append(status)
+            with open(f"{id}.json", "w", encoding="UTF-8") as json_file:
+                json.dump(status.payload, json_file, ensure_ascii=False)
+        return OperationSuccess(statuses)
 
 
 @dataclass

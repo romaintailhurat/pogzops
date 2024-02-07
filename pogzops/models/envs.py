@@ -1,5 +1,3 @@
-from dataclasses import dataclass
-
 from pydantic import BaseModel
 
 
@@ -8,6 +6,7 @@ class PoguesEnv(BaseModel):
     url: str
     token: str | None = None
     cert_path: bool = False
+    cert_path2: str | None = None
 
     def __str__(self) -> str:
         tk = "No token" if self.token is None else self.token[0:6]

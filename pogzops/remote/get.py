@@ -15,11 +15,12 @@ def base_get(id: str, env: PoguesEnv, url: str) -> Status:
         resp = httpx.get(
             url, headers=headers, verify=files("certs").joinpath("insee-fr-chain.pem")
         )
+    elif env.cert_path2:
+        resp = httpx.get(url, headers=headers, verify=env.cert_path2)
     else:
         resp = httpx.get(url, headers=headers)
 
     if resp.status_code == 200:
-        print("→ OK")
         return Success(status_code=resp.status_code, payload=resp.json())
     else:
         return Failure(resp.status_code)

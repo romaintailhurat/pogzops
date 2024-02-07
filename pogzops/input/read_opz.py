@@ -6,6 +6,7 @@ from yaml import safe_load
 from pogzops.models.envs import PoguesEnv
 from pogzops.models.operations import (
     Copy,
+    Download,
     NewOperation,
     Operation,
     SingleQuestionnaireParams,
@@ -52,6 +53,9 @@ def generate_operations_from_yaml(raw_yaml) -> list[NewOperation]:
                 ops.append(
                     Copy(**op),
                 )
+
+            case "download":
+                ops.append(Download(**op))
 
             case _:
                 ops.append(OperationNotImplemented(op["name"], envs[op["source_env"]]))
