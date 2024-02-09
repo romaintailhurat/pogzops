@@ -23,7 +23,10 @@ def exe(filepath):
             case OperationPartial():
                 click.echo(click.style("Operation partially successful", bg="yellow"))
             case OperationFailure():
-                click.echo(click.style("Error with operation", bg="red"))
+                click.echo(click.style(f"{str(op)} is in error", bg="red"))
+                if status.source_statuses is not None:
+                    for source_status in status.source_statuses:
+                        click.echo(source_status.message)
             case _:
                 click.echo("duh?")
 

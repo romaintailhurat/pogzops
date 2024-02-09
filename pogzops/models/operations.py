@@ -25,6 +25,16 @@ implemented_operations = {
 }
 
 
+def choose_operation_status(statuses: List[Status]):
+    """Choose the `OperationStatus` from the list of statuses"""
+    if all([type(status) is Success for status in statuses]):
+        return OperationSuccess(statuses)
+    elif all([type(status) is Failure for status in statuses]):
+        return OperationFailure(statuses)
+    else:
+        return OperationPartial(statuses)
+
+
 @dataclass
 class OperationParams:
     pass
@@ -85,23 +95,21 @@ class ChangeStamp(Operation):
         return change_stamp(self.params.id, self.params.stamp, self.env)
 
 
-class CheckExistence(BaseModel):
+class CheckExistence(BaseModel, NewOperation):
     """Check if a questionnaire exists"""
 
     name: str
     ids: List[str]
     source_env: PoguesEnv
 
+    def __str__(self):
+        return "CheckExistence Operation"
+
     def execute(self) -> OperationStatus:
         statuses = []
         for id in self.ids:
             statuses.append(get_questionnaire(id, self.source_env))
-        if all([type(status) is Success for status in statuses]):
-            return OperationSuccess(statuses)
-        elif all([type(status) is Failure for status in statuses]):
-            return OperationFailure(statuses)
-        else:
-            return OperationPartial(statuses)
+        return choose_operation_status(statuses)
 
 
 class Copy(BaseModel):

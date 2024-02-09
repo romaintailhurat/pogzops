@@ -2,14 +2,8 @@ ops:
   - name: "check_existence"
     type: "single"
     ids:
-      - "ls5pz4zl"
       - "ls5pz4zlxxx"
+      - "ls5pz4zlxxxsx"
     source_env:
       name: "demo"
       url: "https://api-conception-questionnaires.demo.insee.io"
-
-envs:
-  - env: "demo"
-    url: "https://api-conception-questionnaires.demo.insee.io"
-    name: "demo"
-    token: ""

@@ -5,7 +5,8 @@ from pogzops.models.types import Payload
 
 @dataclass
 class Status:
-    status_code: int
+    status_code: int | None = None
+    message: str | None = None
     payload: Payload = None  # most of the time a JSON questionnaire
 
     def is_success(self):

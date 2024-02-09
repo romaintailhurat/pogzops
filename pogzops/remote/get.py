@@ -11,14 +11,21 @@ def base_get(id: str, env: PoguesEnv, url: str) -> Status:
     if env.token is not None:
         headers["Authorization"] = f"Bearer {env.token}"
 
-    if env.cert_path:
-        resp = httpx.get(
-            url, headers=headers, verify=files("certs").joinpath("insee-fr-chain.pem")
+    try:
+        if env.cert_path:
+            resp = httpx.get(
+                url,
+                headers=headers,
+                verify=files("certs").joinpath("insee-fr-chain.pem"),
+            )
+        elif env.cert_path2:
+            resp = httpx.get(url, headers=headers, verify=env.cert_path2)
+        else:
+            resp = httpx.get(url, headers=headers)
+    except (httpx.ConnectTimeout, httpx.ConnectError):
+        return Failure(
+            999, message=f"Connection error when trying to get questionnaire {id}"
         )
-    elif env.cert_path2:
-        resp = httpx.get(url, headers=headers, verify=env.cert_path2)
-    else:
-        resp = httpx.get(url, headers=headers)
 
     if resp.status_code == 200:
         return Success(status_code=resp.status_code, payload=resp.json())
