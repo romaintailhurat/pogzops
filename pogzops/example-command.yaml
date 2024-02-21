@@ -1,9 +1,0 @@
-ops:
-  - name: "check_existence"
-    type: "single"
-    ids:
-      - "ls5pz4zlxxx"
-      - "ls5pz4zlxxxsx"
-    source_env:
-      name: "demo"
-      url: "https://api-conception-questionnaires.demo.insee.io"

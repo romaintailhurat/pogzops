@@ -7,8 +7,8 @@ from pogzops.models.envs import PoguesEnv
 from pogzops.models.operations import (
     Copy,
     Download,
-    NewOperation,
     Operation,
+    OldOperation,
     SingleQuestionnaireParams,
     ChangeStamp,
     CheckExistence,
@@ -28,7 +28,7 @@ def check_input_op(input_op: dict) -> bool:
     return ok_source_env
 
 
-def generate_operations_from_yaml(raw_yaml) -> list[NewOperation]:
+def generate_operations_from_yaml(raw_yaml) -> list[Operation]:
     """Generate the list of `Operation` from the source input."""
     envs = {}
 
@@ -62,7 +62,7 @@ def generate_operations_from_yaml(raw_yaml) -> list[NewOperation]:
     return ops
 
 
-def read_opz_file(path_to_yaml: Path) -> list[NewOperation]:
+def read_opz_file(path_to_yaml: Path) -> list[Operation]:
     """Instanciate environments (`envs`) and operations (`ops`) from a yaml source file."""
     with open(path_to_yaml) as opz_yaml:
         raw_yaml = safe_load(opz_yaml)

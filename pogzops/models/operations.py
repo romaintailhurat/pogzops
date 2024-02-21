@@ -15,17 +15,18 @@ from pogzops.models.status import (
     Status,
     Success,
 )
-from pogzops.remote.opz import change_stamp
+from pogzops.remote.opz import change_stamp, copy
 from pogzops.remote.get import get_questionnaire
 import abc
 
 implemented_operations = {
     "change_stamp": "Set a new value for the target questionnaire stamp.",
     "check_existence": "Check if a questionnaire exists in a target environment.",
+    "download": "",
 }
 
 
-def choose_operation_status(statuses: List[Status]):
+def choose_operation_status(statuses: List[Status]) -> OperationStatus:
     """Choose the `OperationStatus` from the list of statuses"""
     if all([type(status) is Success for status in statuses]):
         return OperationSuccess(statuses)
@@ -52,7 +53,7 @@ class MultiQuestionnairesParams(OperationParams):
 
 
 @dataclass
-class Operation(abc.ABC):
+class OldOperation(abc.ABC):
     name: str
     env: PoguesEnv
 
@@ -70,7 +71,7 @@ class Operation(abc.ABC):
         )
 
 
-class NewOperation(abc.ABC):
+class Operation(abc.ABC):
     @abc.abstractmethod
     def execute(self) -> OperationStatus:
         raise NotImplementedError(
@@ -79,7 +80,7 @@ class NewOperation(abc.ABC):
 
 
 @dataclass
-class ChangeStamp(Operation):
+class ChangeStamp(OldOperation):
     params: SingleQuestionnaireParams
 
     def __str__(self) -> str:
@@ -95,7 +96,7 @@ class ChangeStamp(Operation):
         return change_stamp(self.params.id, self.params.stamp, self.env)
 
 
-class CheckExistence(BaseModel, NewOperation):
+class CheckExistence(BaseModel, Operation):
     """Check if a questionnaire exists"""
 
     name: str
@@ -112,25 +113,27 @@ class CheckExistence(BaseModel, NewOperation):
         return choose_operation_status(statuses)
 
 
-class Copy(BaseModel):
+class Copy(BaseModel, Operation):
     """Copy a questionnaire from a source env to a target env"""
 
     name: str
-    id: List[str]
+    ids: List[str]
     source_env: PoguesEnv
     target_env: PoguesEnv
 
-    def execute(self) -> Status:
-        raise NotImplementedError("WIP")
+    def execute(self) -> OperationStatus:
+        statuses = []
+        for id in self.ids:
+            statuses.append(copy(id, self.source_env, self.target_env))
+        return choose_operation_status(statuses)
 
 
-class Download(BaseModel):
+class Download(BaseModel, Operation):
     """Download questionnaires"""
 
     name: str
     ids: List[str]
     source_env: PoguesEnv
-    zip: bool  # TODO
 
     def execute(self) -> OperationStatus:
         statuses = []
@@ -143,7 +146,7 @@ class Download(BaseModel):
 
 
 @dataclass
-class OperationNotImplemented(Operation):
+class OperationNotImplemented(OldOperation):
     @classmethod
     def check_operation_params(cls, operations_params: dict) -> bool:
         return False

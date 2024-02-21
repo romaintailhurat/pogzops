@@ -164,3 +164,4 @@ cython_debug/
 pogzops/conf/secrets.json
 pogzops/conf/conf.json
 pogzops/certs/*.pem
+pogzops/examples/
