@@ -1,11 +1,6 @@
-from dataclasses import dataclass
 import json
-import stat
-from typing import List
-
 from pydantic import BaseModel
 from pogzops.models.envs import PoguesEnv
-from pogzops.models.types import Stamp
 from pogzops.models.status import (
     Failure,
     OperationFailure,
@@ -26,7 +21,7 @@ implemented_operations = {
 }
 
 
-def choose_operation_status(statuses: List[Status]) -> OperationStatus:
+def choose_operation_status(statuses: list[Status]) -> OperationStatus:
     """Choose the `OperationStatus` from the list of statuses"""
     if all([type(status) is Success for status in statuses]):
         return OperationSuccess(statuses)
@@ -34,41 +29,6 @@ def choose_operation_status(statuses: List[Status]) -> OperationStatus:
         return OperationFailure(statuses)
     else:
         return OperationPartial(statuses)
-
-
-@dataclass
-class OperationParams:
-    pass
-
-
-@dataclass
-class SingleQuestionnaireParams(OperationParams):
-    id: str
-    stamp: Stamp = None
-
-
-@dataclass
-class MultiQuestionnairesParams(OperationParams):
-    ids: list[str]
-
-
-@dataclass
-class OldOperation(abc.ABC):
-    name: str
-    env: PoguesEnv
-
-    @classmethod
-    @abc.abstractmethod
-    def check_operation_params(cls, operations_params: dict) -> bool:
-        raise NotImplementedError(
-            "This is an abstract method that must be implemented."
-        )
-
-    @abc.abstractmethod
-    def execute(self) -> Status:
-        raise NotImplementedError(
-            "This is an abstract method that must be implemented."
-        )
 
 
 class Operation(abc.ABC):
@@ -82,7 +42,7 @@ class Operation(abc.ABC):
 class ChangeStamp(BaseModel, Operation):
     """Change the stamp of some questionnaires"""
 
-    name: str
+    type: str
     ids: list[str]
     stamp: str
     source_env: PoguesEnv
@@ -97,8 +57,8 @@ class ChangeStamp(BaseModel, Operation):
 class CheckExistence(BaseModel, Operation):
     """Check if a questionnaire exists"""
 
-    name: str
-    ids: List[str]
+    type: str
+    ids: list[str]
     source_env: PoguesEnv
 
     def __str__(self):
@@ -114,8 +74,8 @@ class CheckExistence(BaseModel, Operation):
 class Copy(BaseModel, Operation):
     """Copy a questionnaire from a source env to a target env"""
 
-    name: str
-    ids: List[str]
+    type: str
+    ids: list[str]
     source_env: PoguesEnv
     target_env: PoguesEnv
 
@@ -129,8 +89,8 @@ class Copy(BaseModel, Operation):
 class Download(BaseModel, Operation):
     """Download questionnaires"""
 
-    name: str
-    ids: List[str]
+    type: str
+    ids: list[str]
     source_env: PoguesEnv
 
     def execute(self) -> OperationStatus:
