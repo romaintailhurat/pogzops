@@ -25,7 +25,7 @@ def generate_operations_from_yaml(raw_yaml) -> list[Operation]:
     for op in raw_yaml["ops"]:
         if check_input_op(op) is False:
             raise RuntimeError("bad op format")
-        match op["name"]:
+        match op["type"]:
             case "change_stamp":
                 ops.append(ChangeStamp(**op))
             case "check_existence":
