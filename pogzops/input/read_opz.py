@@ -3,24 +3,14 @@ Read and parse the cli opz yaml file.
 """
 from pathlib import Path
 from yaml import safe_load
-from pogzops.models.envs import PoguesEnv
 from pogzops.models.operations import (
     Copy,
     Download,
     Operation,
-    OldOperation,
-    SingleQuestionnaireParams,
     ChangeStamp,
     CheckExistence,
     OperationNotImplemented,
 )
-
-
-def check_input_env(input_env: dict) -> bool:
-    """Check if the env definition in the input YAML file is ok, as in the shape of the YAML object is good."""
-    ok_name = "name" in input_env.keys()
-    ok_url = "url" in input_env.keys()
-    return ok_name & ok_url
 
 
 def check_input_op(input_op: dict) -> bool:
@@ -30,16 +20,8 @@ def check_input_op(input_op: dict) -> bool:
 
 def generate_operations_from_yaml(raw_yaml) -> list[Operation]:
     """Generate the list of `Operation` from the source input."""
-    envs = {}
 
-    """ 
-    for env in raw_yaml["envs"]:
-        if check_input_env(env) is False:
-            raise RuntimeError("bad env format")
-        envs[env["name"]] = PoguesEnv(env["name"], env["url"]) 
-    """
-
-    ops = []
+    ops: list[Operation] = []
     for op in raw_yaml["ops"]:
         if check_input_op(op) is False:
             raise RuntimeError("bad op format")
