@@ -79,21 +79,19 @@ class Operation(abc.ABC):
         )
 
 
-@dataclass
-class ChangeStamp(OldOperation):
-    params: SingleQuestionnaireParams
+class ChangeStamp(BaseModel, Operation):
+    """Change the stamp of some questionnaires"""
 
-    def __str__(self) -> str:
-        return f"Changing stamp of questionnnaire {self.params.id} to {self.params.stamp} on env {self.env.name}"
+    name: str
+    ids: list[str]
+    stamp: str
+    source_env: PoguesEnv
 
-    @classmethod
-    def check_operation_params(cls, operation_params: dict):
-        """Checking the YAML params for this operation"""
-        # TODO to be implemented
-        return False
-
-    def execute(self) -> Status:
-        return change_stamp(self.params.id, self.params.stamp, self.env)
+    def execute(self) -> OperationStatus:
+        statuses = []
+        for id in self.ids:
+            statuses.append(change_stamp(id, self.stamp, self.source_env))
+        return choose_operation_status(statuses)
 
 
 class CheckExistence(BaseModel, Operation):
@@ -145,11 +143,6 @@ class Download(BaseModel, Operation):
         return OperationSuccess(statuses)
 
 
-@dataclass
-class OperationNotImplemented(OldOperation):
-    @classmethod
-    def check_operation_params(cls, operations_params: dict) -> bool:
-        return False
-
-    def execute(self) -> Status:
-        return super().execute()
+class OperationNotImplemented(Operation):
+    def execute(self) -> OperationStatus:
+        return OperationFailure(None)
