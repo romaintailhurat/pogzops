@@ -1,57 +1,37 @@
 # 🛴 pogzops 🛴
 
-__pogzops__ is a set of Python programs that helps a Pogues power user with several tasks.
+__pogzops__ is a command line helping with management tasks over Pogues environments.
 
-> WIP use as a cli and as a set of programs
+For example if i want to download some questionnaires, i can use the following command:
 
-## Use cases
+`$> pgz exe my-download-command.yaml`
 
-### Using the CLI
-
-Currently:
-
-`$> poetry run pgz exe pogzops\example-command.yaml`
-
-We're targeting to use `pogzops` as a Python cli:
-
-`$> pogzops exe my-operations.yaml`
-
-The YAML file has this structure:
+With the YAML file being:
 
 ```yaml
 ops:
-  - name: "change_stamp"
-    type: "single"
-    id: "lpjqty81"
-    stamp: "TEST"
-    env: "demo"
-envs:
-  - env: "demo"
-    url: "https://api-conception-questionnaires.demo.insee.io"
-    name: "demo"
-    token: ""
+  - type: "download"
+    ids:
+      - "abcdef12"
+      - "ghij45kl"
+    source_env:
+      name: "pogues"
+      url: "https://my-pogues-api.example.com"
 ```
 
-ops contains a list of operations, envs is a list of Pogues envs (the API).
+The `ops` array will handle the different operations you want to achieve. For every operation, you need to detail:
 
-You can use `$> poetry run pgz ls` to get the list of available operations.
+- the `type` of the operation
+  - the `pgz ls` command will give you the list, see also the doc below ;)
+- the `ids` of the questionnaire involved
+  - can be 1 but no less
+- the source Pogues environment `source_env` which contains the `url` of the Pogues API we want to query
 
-### Using the lib
+Other elements could be necessary depending of the type of operations (more on that below).
 
-For example, a power user might like to copy several questionnaires from one environment to another:
+### More on envs
 
-```python
-from remote.opz import copy
-from models.envs import PoguesEnv
-
-first_env = PoguesEnv("first", envs["first"])
-second_env = PoguesEnv("second", envs["second"])
-
-questionnaires_ids = ["lkuyylbx", "lj7683a6"]
-
-for id in questionnaires_ids:
-    copy(id, first_env, second_env)
-```
+> WIP
 
 ## How to run?
 
@@ -60,6 +40,31 @@ The package management is handled by [poetry](https://python-poetry.org/), that 
 Then, the easiest way to run a program will be to launch the `run.py` file with the appropriate code, using this command at the root of `pogzops` directory:
 
 `$> poetry run python pogzops/run.py`
+
+In an near future, pogzops will be available as a python lib.
+
+## List of operations
+
+### Copy a questionnaire from one environment to the other
+
+Will create or update a questionnaire in a target environment from the questionnaire model in a source environment.
+
+```yaml
+ops:
+  - type: "copy"
+    ids:
+      - "quest0001"
+      - "quest0002"
+      - "quest0003"
+      - "quest0004"
+    source_env:
+      name: "origin"
+      url: "https://origin-api.example.com"
+      token: "my-identification-token"
+    target_env:
+      name: "sandbox"
+      url: "https://sanbox-api.there.com"
+```
 
 ## Lint
 
